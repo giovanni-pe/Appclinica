@@ -1,0 +1,5 @@
+composer require webonyx/graphql-php
+
+composer require illuminate/database
+
+ composer dump-autoload      

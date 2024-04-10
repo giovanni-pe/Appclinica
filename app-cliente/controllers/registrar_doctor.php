@@ -1,17 +1,17 @@
 <?php
-
+include('../vars.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $url = 'http://localhost/examendiseno/apiclinicav1/app/Negocio/doctor.php';
+    $url = $api_uri.'/app/Negocio/doctor.php';
 
     $data = [
-        'nombreDoctor' => isset($_POST['nombreDoctor']) ? $_POST['nombreDoctor'] : null,
-        'especialidadDoctor' => isset($_POST['especialidadDoctor']) ? $_POST['especialidadDoctor'] : null,
-        'correoDoctor' => isset($_POST['correoDoctor']) ? $_POST['correoDoctor'] : null,
-        'telefonoDoctor' => isset($_POST['telefonoDoctor']) ? $_POST['telefonoDoctor'] : null,
+        'nombre' => isset($_POST['nombreDoctor']) ? $_POST['nombreDoctor'] : null,
+        'especialidad' => isset($_POST['especialidadDoctor']) ? $_POST['especialidadDoctor'] : null,
+        'correo' => isset($_POST['correoDoctor']) ? $_POST['correoDoctor'] : null,
+        'telefono' => isset($_POST['telefonoDoctor']) ? $_POST['telefonoDoctor'] : null,
     ];
 
     // Verificar que todos los campos estén definidos y no estén vacíos
-    if (!empty($data['nombreDoctor']) && !empty($data['especialidadDoctor']) && !empty($data['correoDoctor']) && !empty($data['telefonoDoctor'])) {
+    if (!empty($data['nombre']) && !empty($data['especialidad']) && !empty($data['correo']) && !empty($data['telefono'])) {
         $options = [
             'http' => [
                 'method' => 'POST',

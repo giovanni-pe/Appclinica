@@ -1,0 +1,23 @@
+@startuml
+
+package "Aplicación" {
+    [DoctorController]
+    [ClienteController]
+    [CitasController]
+    [InformeController]
+
+    [DoctorModel]
+    [ClienteModel]
+    [CitasModel]
+    [InformeModel]
+
+    [DoctorController] --> [DoctorModel] : Usa
+    [CitasController] --> [DoctorModel] : Usa (Validación)
+    [ClienteController] --> [ClienteModel] : Usa
+    [CitasController] --> [ClienteModel] : Usa
+    [CitasController] --> [CitasModel] : Usa
+    [InformeController] --> [InformeModel] : Usa
+}
+
+@enduml
+

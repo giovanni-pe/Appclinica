@@ -1,0 +1,50 @@
+@startuml
+
+actor "Cliente (App_Doctor)" as ClienteDoctor
+actor "Cliente (App_Reservas Online)" as ClienteReservas
+participant "API Clínica" as API
+participant "Sistema" as Sistema
+
+group Reserva de Cita por Videollamada
+    ClienteDoctor -> Sistema: Solicitar reserva de cita (videollamada)
+    Sistema -> API: Solicitar disponibilidad de citas
+    API --> Sistema: Lista de citas disponibles
+    Sistema -> ClienteDoctor: Mostrar citas disponibles
+    ClienteDoctor -> Sistema: Seleccionar cita
+    Sistema -> API: Confirmar reserva de cita
+    API --> Sistema: Confirmación de reserva
+    Sistema -> ClienteDoctor: Confirmación de reserva
+    ClienteDoctor --> Sistema: Ingresar diagnóstico, receta, tratamiento
+    Sistema -> API: Registrar diagnóstico, receta, tratamiento
+    API --> Sistema: Confirmación de registro
+    Sistema -> ClienteDoctor: Confirmación de registro
+end
+
+group Generación de Informe
+    Sistema -> API: Generar informe
+    API --> Sistema: Informe generado
+    Sistema -> ClienteDoctor: Informe generado
+end
+
+group Reserva de Cita por Videollamada
+    ClienteReservas -> Sistema: Solicitar reserva de cita (videollamada)
+    Sistema -> API: Solicitar disponibilidad de citas
+    API --> Sistema: Lista de citas disponibles
+    Sistema -> ClienteReservas: Mostrar citas disponibles
+    ClienteReservas -> Sistema: Seleccionar cita
+    Sistema -> API: Confirmar reserva de cita
+    API --> Sistema: Confirmación de reserva
+    Sistema -> ClienteReservas: Confirmación de reserva
+    ClienteReservas --> Sistema: Ingresar diagnóstico, receta, tratamiento
+    Sistema -> API: Registrar diagnóstico, receta, tratamiento
+    API --> Sistema: Confirmación de registro
+    Sistema -> ClienteReservas: Confirmación de registro
+end
+
+group Generación de Informe
+    Sistema -> API: Generar informe
+    API --> Sistema: Informe generado
+    Sistema -> ClienteReservas: Informe generado
+end
+
+@enduml

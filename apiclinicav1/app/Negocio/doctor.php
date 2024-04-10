@@ -95,7 +95,7 @@ class DoctorController
     }
 }
 
-
+header('Content-Type: application/json');
 // Manejar la solicitud
 $method = $_SERVER['REQUEST_METHOD'];
 

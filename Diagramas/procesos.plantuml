@@ -1,0 +1,24 @@
+@startuml
+start
+
+:Cliente (App_Doctor) solicita reserva de cita;
+if (Solicitar disponibilidad de citas) then (Sí)
+  :Mostrar citas disponibles al Cliente;
+  :Cliente selecciona cita;
+  if (Confirmar reserva de cita) then (Sí)
+    :Ingresar diagnóstico, receta, tratamiento;
+    if (Registrar diagnóstico, receta, tratamiento) then (Sí)
+      :Generar informe;
+      :Enviar informe al Cliente;
+    else (No)
+      :Notificar fallo en el registro;
+    endif
+  else (No)
+    :Notificar fallo en la reserva;
+  endif
+else (No)
+  :Notificar falta de citas disponibles;
+endif
+
+stop
+@enduml

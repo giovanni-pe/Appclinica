@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cita extends Model
 {
+    protected $table = 'citas'; 
+    public $timestamps=false;
     protected $fillable = ['cliente_id', 'doctor_id', 'fecha_hora', 'estado'];
 
     public function cliente()

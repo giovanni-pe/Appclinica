@@ -1,57 +1,161 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Citas</title>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-</head>
-<body>
+<?php
+include("../vars.php");
+include('../layout/parte1.php');
+?>
 
-<h1>Listar Citas</h1>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1 class="m-0">Bienvenido al sistema Clinico</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-<div id="citas-lista"></div>
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">Roles Registrados</font>
+                                </font>
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="card-body" style="display: block;">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+
+                                    <table id="example1" class="table table-bordered table-striped">
+
+
+                                        <thead>
+                                            <th>ID</th>
+                                            <th>Cliente ID</th>
+                                            <th>Doctor ID</th>
+                                            <th>Fecha y Hora</th>
+                                            <th>Estado</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // URL de la API de citas
+                                            $apiUrl = $api_uri.'/app/Negocio/cita.php';
+
+                                            // Realizar una solicitud GET a la API de citas y decodificar la respuesta JSON
+                                            $citas = json_decode(file_get_contents($apiUrl), true);
+
+                                            // Iterar sobre las citas y mostrar los detalles en una fila de la tabla
+                                            foreach ($citas as $cita) {
+                                                echo "<tr>";
+                                                echo "<td>{$cita['id']}</td>";
+                                                echo "<td>{$cita['cliente_id']}</td>";
+                                                echo "<td>{$cita['doctor_id']}</td>";
+                                                echo "<td>{$cita['fecha_hora']}</td>";
+                                                echo "<td>{$cita['estado']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?></tbody>
+                                        <tfoot>
+
+                                            <th>ID</th>
+                                            <th>Cliente ID</th>
+                                            <th>Doctor ID</th>
+                                            <th>Fecha y Hora</th>
+                                            <th>Estado</th>
+
+                                        </tfoot>
+                                    </table>
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+
+<!-- /.content-wrapper -->
+
+<?php
+include('../layout/parte2.php');
+include('../layout/mensajes.php');
+?>
+
 
 <script>
-$(document).ready(function() {
-    // Realizar la solicitud Ajax para obtener la lista de citas
-    $.ajax({
-        url: 'http://localhost/examendiseno/apiclinicav1/app/Negocio/cita.php',
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            if (data.length > 0) {
-                var tableHtml = '<table border="1">' +
-                                    '<tr>' +
-                                        '<th>ID Cita</th>' +
-                                        '<th>Cliente</th>' +
-                                        '<th>Doctor</th>' +
-                                        '<th>Fecha</th>' +
-                                        '<th>Estado</th>' +
-                                    '</tr>';
+    $(function() {
+        $("#example1").DataTable({
 
-                $.each(data, function(index, cita) {
-                    tableHtml += '<tr>' +
-                                    '<td>' + cita.id + '</td>' +
-                                    '<td>' + cita.cliente_id + '</td>' +
-                                    '<td>' + cita.doctor_id + '</td>' +
-                                    '<td>' + cita.fecha_hora + '</td>' +
-                                    '<td>' + cita.estado + '</td>' +
-                                 '</tr>';
-                });
+            "pageLength": 2,
+            language: {
+                "emptyTable": "No hay información",
+                "decimal": "",
+                "info": "Mostrando INICIO a FIN de TOTAL Roles",
+                "infoEmpty": "Mostrando 0 to 0 of 0 Roles",
+                "infoFiltered": "(Filtrado de MAX total Roles)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar MENU Roles",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscador:",
+                "zeroRecords": "Sin resultados encontrados",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
 
-                tableHtml += '</table>';
-                $('#citas-lista').html(tableHtml);
-            } else {
-                $('#citas-lista').html('<p>No hay citas disponibles.</p>');
-            }
-        },
-        error: function() {
-            $('#citas-lista').html('<p>Error al obtener la lista de citas.</p>');
-        }
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": false,
+            buttons: [{
+                extend: 'collection',
+                text: 'reportes',
+                orientation: 'landscape',
+                buttons: [{
+                    text: 'Copiar',
+                    extend: 'copy',
+
+                }, {
+                    extend: 'pdf'
+                }, {
+                    extend: 'csv'
+                }, {
+                    extend: 'excel'
+                }, {
+                    text: 'Imprimir',
+                    extend: 'print'
+                }]
+            }, {
+                extend: 'colvis',
+                text: 'Visor de columnas',
+                collectionLayaut: 'fixed three-column'
+            }],
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-});
 </script>
-
-</body>
-</html>

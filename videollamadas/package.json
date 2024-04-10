@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "websocket": "^1.0.34"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "gkvidellamadas",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

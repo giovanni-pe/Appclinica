@@ -1,0 +1,25 @@
+@startuml
+skinparam linetype "ortho"
+
+node ServidorUno {
+  folder "apiclinica"
+  database "Base de Datos" {
+    [clinicadb-mysql]
+  }
+}
+
+node ServidorDos{
+  folder "app-cliente (Panel de control del doctor)"
+}
+node ServidorTres{
+    folder "reservas online(Para el paciente)"
+}
+node workstation as "PC de trabajo de la clinica(mediante el navegador)"
+node  pc as "pc del paciente"
+node  phone as"Celular"
+ServidorUno<-->ServidorDos: HTTP
+ServidorUno<-->ServidorTres: HTTP
+ServidorTres<-->phone: HTTP 
+ServidorDos<-->workstation: HTTP
+ServidorTres<-->pc: HTTP
+@enduml

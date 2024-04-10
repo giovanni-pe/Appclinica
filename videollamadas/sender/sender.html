@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sender</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            box-shadow: 5px 5px 15px #bfbfbf, 
+                        -5px -5px 15px #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 250px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 5px 5px 10px #bfbfbf, 
+                        inset -5px -5px 10px #ffffff;
+            font-size: 16px;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            box-shadow: 5px 5px 10px #bfbfbf, 
+                        -5px -5px 10px #ffffff;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #video-call-div {
+            display: none;
+            margin-top: 20px;
+        }
+
+        video {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #bfbfbf, 
+                        -5px -5px 10px #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .call-action-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .call-action-div button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input placeholder="Enter clinic code" type="text" id="username-input" /><br>
+        <button onclick="sendUsername()">Send</button>
+        <button onclick="startCall()">Start Call</button>
+    </div>
+    <div id="video-call-div">
+        <video muted id="local-video" autoplay></video>
+        <video id="remote-video" autoplay></video>
+        <div class="call-action-div">
+            <button onclick="muteVideo()">Mute Video</button>
+            <button onclick="muteAudio()">Mute Audio</button>
+        </div>
+    </div>
+    <script src="./sender.js"></script>
+</body>
+</html>
+

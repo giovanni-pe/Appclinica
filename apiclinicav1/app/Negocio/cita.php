@@ -1,5 +1,6 @@
 <?php
 include('../config.php');
+
 use App\Models\Cita;
 use App\Models\Doctor;
 
@@ -25,36 +26,41 @@ class CitaController
     public function store($data)
     {
         // Validar que se proporcionen los campos obligatorios
-        if (!isset($data['cliente_id']) || !isset($data['doctor_id']) || !isset($data['fecha_hora'])) {
+        if (!isset($data->cliente_id) || !isset($data->doctor_id) || !isset($data->fecha_hora)) {
             http_response_code(400);
-            return json_encode(['error' => 'Cliente ID, Doctor ID y Fecha/Hora son campos obligatorios']);
+            echo json_encode(['error' => 'Cliente ID, Doctor ID y Fecha/Hora son campos obligatorios']);
+            return;
         }
 
         // Verificar disponibilidad del doctor
-        $doctor_id = $data['doctor_id'];
-        $fecha_hora = $data['fecha_hora'];
+        $doctor_id = $data->doctor_id;
+        $fecha_hora = $data->fecha_hora;
 
         if (!Doctor::isAvailable($doctor_id, $fecha_hora)) {
-            http_response_code(400);
             return json_encode(['error' => 'El doctor no está disponible en la fecha y hora especificadas']);
         }
 
-        // Validar fecha y hora futura
+        //Validar fecha y hora futura
         if (strtotime($fecha_hora) <= time()) {
-            http_response_code(400);
+
             return json_encode(['error' => 'La fecha y hora deben ser en el futuro']);
         }
-
-        // Limitar el número de citas por día
-        $fecha = date('Y-m-d', strtotime($fecha_hora));
-
-        if (Doctor::exceedsDailyLimit($doctor_id, $fecha)) {
-            http_response_code(400);
-            return json_encode(['error' => 'El doctor ha alcanzado el límite de citas para este día']);
+        $fecha=Date('Y-m-d',$fecha_hora);
+        if(Doctor::exceedsDailyLimit( $doctor_id , $fecha )){
+            return json_encode(["erro"=> 'El doctor ya tine todo su tiempo ocupado']);
         }
 
+        
+
+        
+
+
         // Crear la cita
-        $cita = new Cita($data);
+        $cita = new Cita();
+        $cita->cliente_id = $data->cliente_id;
+        $cita->doctor_id = $data->doctor_id;
+        $cita->fecha_hora = $data->fecha_hora;
+        $cita->estado = 'pendiente';
         $cita->save();
 
         return json_encode(['mensaje' => 'Cita creada con éxito']);
@@ -90,10 +96,11 @@ class CitaController
         }
 
         // Limitar el número de citas por día
+        $doctor = Doctor::find($doctor_id);
+
         $fecha = date('Y-m-d', strtotime($fecha_hora));
 
-        if (Doctor::exceedsDailyLimit($doctor_id, $fecha)) {
-            http_response_code(400);
+        if ($doctor->exceedsDailyLimit($fecha)) {
             return json_encode(['error' => 'El doctor ha alcanzado el límite de citas para este día']);
         }
 
@@ -120,7 +127,7 @@ class CitaController
     }
 }
 
-
+header('Content-Type: application/json');
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
@@ -135,7 +142,7 @@ switch ($method) {
         break;
 
     case 'POST':
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = json_decode(file_get_contents('php://input'));
         $citaController = new CitaController();
         echo $citaController->store($data);
         break;

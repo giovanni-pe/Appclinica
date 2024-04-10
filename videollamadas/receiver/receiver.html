@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 8px 8px 16px #bebebe,
+                        -8px -8px 16px #ffffff;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: inset 4px 4px 6px #bebebe,
+                        inset -4px -4px 6px #ffffff;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 4px 4px 6px #bebebe,
+                        -4px -4px 6px #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input placeholder="Ingrese el codigo de la clinica"
+                type="text"
+                id="username-input" /><br>
+        <button onclick="joinCall()">Unirse a la llamada</button>
+    </div>
+    <div id="video-call-div">
+        <video muted id="local-video" autoplay></video>
+        <video id="remote-video" autoplay></video>
+        <div class="call-action-div">
+            <button onclick="muteVideo()">Silenciar Video</button>
+            <button onclick="muteAudio()">Silenciar Audio</button>
+        </div>
+    </div>
+    <script src="./receiver.js"></script>
+</body>
+</html>

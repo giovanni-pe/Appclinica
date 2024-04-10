@@ -1,0 +1,71 @@
+@startuml
+
+package "Controladores" {
+    class DoctorController {
+        + show()
+        + update()
+        + store()
+        + destroy()
+    }
+
+    class ClienteController {
+        + show()
+        + update()
+        + store()
+        + destroy()
+    }
+
+    class CitasController {
+        + show()
+        + update()
+        + store()
+        + destroy()
+    }
+
+    class InformeController {
+        + show()
+        + update()
+        + store()
+        + destroy()
+    }
+}
+
+package "Modelos" {
+    class Doctor {
+        - id: int
+        - nombre: string
+        - especialidad: string
+        - limite_diario_citas: int
+        - telefono: string
+    }
+
+    class Cliente {
+        - id: int
+        - nombre: string
+        - email: string
+        - telefono: string
+    }
+
+    class Citas {
+        - id: int
+        - client_id: int
+        - doctor_id: int
+        - fecha_hora: datetime
+        - estado: string
+    }
+
+    class Informe {
+        - id: int
+        - id_cita: int
+        - diagnostico: string
+        - receta: string
+        - tratamiento: string
+    }
+}
+
+Doctor "1" *-- "0..*" Citas
+Cliente "1" *-- "0..*" Citas
+Citas "1" -- "0..1" Informe
+Controladores --> Modelos
+
+@enduml

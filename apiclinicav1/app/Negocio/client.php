@@ -24,19 +24,17 @@ class ClienteController
 
     public function store($data)
     {
-        // Verificar que se hayan proporcionado datos
         if (empty($data)) {
             return json_encode(['mensaje' => 'Datos de cliente no proporcionados']);
         }
-
         try {
-            // Crear una nueva instancia de Cliente con los datos proporcionados
-            $cliente = new Cliente($data);
             
-            // Guardar el cliente en la base de datos
+            $cliente = new Cliente();
+            $cliente->nombre=$data->nombre;
+            $cliente->email=$data->email;
+            $cliente->telefono=$data->telefono;
             $cliente->save();
 
-            return json_encode(['mensaje' => 'Cliente creado con éxito']);
         } catch (\Exception $e) {
             // Manejar cualquier excepción que pueda ocurrir al guardar el cliente
             return json_encode(['mensaje' => 'Error al crear el cliente: ' . $e->getMessage()]);
@@ -91,7 +89,8 @@ switch ($method) {
     case 'POST':
         $data = json_decode(file_get_contents('php://input'));
         $clienteController = new ClienteController();
-        echo json_encode($data);
+        
+        echo $clienteController->store($data);
         break;
 
     case 'PUT':
